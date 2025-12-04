@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>我的个人主页</title>
+  <title>郑潇天 · 个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     /* 通用样式 */
@@ -57,15 +57,18 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
+      overflow: hidden;
       background: #ddd;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      font-weight: bold;
-      color: #666;
-      flex-shrink: 0;
-      user-select: none;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .basic-info h1 {
@@ -184,20 +187,20 @@
     <div class="card">
       <!-- 头部信息 -->
       <header class="header">
-        <!-- 头像（字母头像，可以换成图片） -->
+        <!-- 头像：确保和 index.html 同目录下有 avatar.jpg -->
         <div class="avatar">
-          张
-          <!-- 如果你有头像图片，可以把上面的内容换成：
-          <img src="你的图片地址" alt="头像" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />
-          -->
+          <img src="avatar.jpg" alt="郑潇天头像" />
         </div>
         <div class="basic-info">
-          <h1>张三</h1>
-          <div class="subtitle">某某学校 / 专业 | 研究方向：电缆内部结构与有向图约束</div>
+          <h1>郑潇天</h1>
+          <div class="subtitle">
+            东南大学 · 经济管理学院 · 数字经济与管理专业博士研究生（全日制）
+          </div>
           <div class="tags">
-            <span class="tag">电缆结构</span>
-            <span class="tag">有向图建模</span>
-            <span class="tag">工程研究</span>
+            <span class="tag">数字经济与管理</span>
+            <span class="tag">博士研究生</span>
+            <span class="tag">东南大学</span>
+            <span class="tag">经济管理学院</span>
           </div>
         </div>
       </header>
@@ -210,37 +213,48 @@
           <section class="section">
             <h2 class="section-title">关于我</h2>
             <p>
-              你好，我是张三，目前主要从事电缆内部零件结构与约束关系的研究。平时喜欢整理技术笔记、画结构示意图，也在尝试把研究内容做成更直观的可视化展示。
+              你好，我是郑潇天，2000 年出生，目前就读于东南大学经济管理学院，
+              数字经济与管理专业博士研究生（全日制），学制 4 年，入学时间为 2024 年 9 月。
+              对数字经济、数据驱动决策以及数字化转型等方向有持续兴趣，希望通过系统研究和实践，
+              为相关领域的理论与应用探索一些有价值的思路。
             </p>
           </section>
 
-          <!-- 研究 / 工作方向 -->
+          <!-- 学习 / 研究方向 -->
           <section class="section">
-            <h2 class="section-title">研究 / 工作方向</h2>
+            <h2 class="section-title">学习与研究方向</h2>
             <ul class="list">
               <li>
-                <span>电缆内部结构建模：</span>导体、绝缘皮、屏蔽层、铠装层等模块化组合设计。
+                <span>数字经济与管理：</span>
+                关注数字技术对产业、企业管理和商业模式的影响。
               </li>
               <li>
-                <span>有向图约束关系：</span>基于有向图描述零件之间的依赖与装配顺序。
+                <span>数据分析与决策：</span>
+                通过数据分析方法辅助管理决策与政策制定。
               </li>
               <li>
-                <span>工程应用：</span>面向工程设计软件的规则抽象与自动检查。
+                <span>数字化转型：</span>
+                关注传统行业在数字经济背景下的转型路径与管理问题。
               </li>
             </ul>
           </section>
 
-          <!-- 项目 / 论文（你可以改成“项目经历”或“论文列表”） -->
+          <!-- 学习经历 / 规划 -->
           <section class="section">
-            <h2 class="section-title">项目 / 论文</h2>
+            <h2 class="section-title">学习经历与规划</h2>
             <ul class="list">
               <li>
-                <span>基于有向图的电缆内部零件约束关系研究</span><br />
-                · 负责模型构建与约束规则整理，探索多模块电缆的组合设计方法。
+                <span>2024.09 — 至今：</span>
+                东南大学 · 经济管理学院 · 数字经济与管理博士研究生（全日制）。
               </li>
               <li>
-                <span>电缆模块化设计与自动校验小工具（进行中）</span><br />
-                · 计划将约束规则实现为可视化工具，用于快速检查设计方案合理性。
+                <span>预计毕业时间：</span>
+                2028 年 6 月 30 日，当前学籍状态：在籍（注册学籍）。
+              </li>
+              <li>
+                <span>未来规划：</span>
+                希望在数字经济与管理领域继续深耕，结合科研与实际应用，
+                推动数据要素在经济管理中的更好落地。
               </li>
             </ul>
           </section>
@@ -251,9 +265,26 @@
           <div class="side-block">
             <div class="side-block-title">基本信息</div>
             <ul class="contact-list">
-              <li>所在城市：XXXX</li>
-              <li>身份：研究生 / 工程师</li>
-              <li>状态：在研 / 在读</li>
+              <li>姓名：郑潇天</li>
+              <li>性别：男</li>
+              <li>民族：汉族</li>
+              <li>出生日期：2000 年 06 月 10 日</li>
+            </ul>
+          </div>
+
+          <div class="side-block">
+            <div class="side-block-title">学籍信息</div>
+            <ul class="contact-list">
+              <li>学校名称：东南大学</li>
+              <li>学院：经济管理学院</li>
+              <li>专业：数字经济与管理</li>
+              <li>层次：博士研究生</li>
+              <li>学历类别：普通高等教育</li>
+              <li>学习形式：全日制</li>
+              <li>学制：4 年</li>
+              <li>入学日期：2024 年 09 月 01 日</li>
+              <li>预计毕业日期：2028 年 06 月 30 日</li>
+              <li>学籍状态：在籍（注册学籍）</li>
             </ul>
           </div>
 
@@ -261,24 +292,15 @@
             <div class="side-block-title">联系方式</div>
             <ul class="contact-list">
               <li>邮箱：<a href="mailto:yourmail@example.com">yourmail@example.com</a></li>
-              <li>GitHub：<a href="https://github.com/yourname" target="_blank">github.com/yourname</a></li>
-              <li>微信：可以写一句话，比如「加微信请备注来意」</li>
-            </ul>
-          </div>
-
-          <div class="side-block">
-            <div class="side-block-title">技能标签</div>
-            <ul class="contact-list">
-              <li>• CAD / 电缆结构设计</li>
-              <li>• 有向图 / 图结构建模</li>
-              <li>• Python / 基础数据处理</li>
+              <li>GitHub：<a href="https://github.com/1377904834" target="_blank">github.com/1377904834</a></li>
+              <li>其他联系方式：可按需要补充（如微信、公众号等）。</li>
             </ul>
           </div>
         </aside>
       </main>
 
       <div class="footer">
-        © <span id="year"></span> 张三 · 个人主页
+        © <span id="year"></span> 郑潇天 · 个人主页
       </div>
     </div>
   </div>
