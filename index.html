@@ -180,6 +180,114 @@
       font-size: 12px;
       color: #999;
     }
+
+    /* 日记样式 */
+    .diary-container {
+      margin-top: 16px;
+    }
+
+    .diary-input {
+      margin-bottom: 24px;
+    }
+
+    #diaryEntry {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    #diaryEntry:focus {
+      outline: none;
+      border-color: #3056d3;
+      box-shadow: 0 0 0 2px rgba(48, 86, 211, 0.1);
+    }
+
+    .diary-controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .diary-btn {
+      padding: 8px 16px;
+      background: #3056d3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .diary-btn:hover {
+      background: #2542b0;
+    }
+
+    .diary-btn-secondary {
+      background: #f0f4ff;
+      color: #3056d3;
+      border: 1px solid #d3ddff;
+    }
+
+    .diary-btn-secondary:hover {
+      background: #e1e8ff;
+    }
+
+    .diary-history h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+
+    .diary-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fafafa;
+    }
+
+    .diary-item {
+      padding: 12px;
+      margin-bottom: 12px;
+      background: white;
+      border-radius: 6px;
+      border-left: 3px solid #3056d3;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .diary-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .diary-date {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 4px;
+    }
+
+    .diary-content {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .diary-empty {
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
@@ -258,6 +366,26 @@
               </li>
             </ul>
           </section>
+
+          <!-- 我的日记 -->
+          <section class="section">
+            <h2 class="section-title">我的日记</h2>
+            <div class="diary-container">
+              <div class="diary-input">
+                <textarea id="diaryEntry" placeholder="写下今天的日记..." rows="6"></textarea>
+                <div class="diary-controls">
+                  <button id="saveDiary" class="diary-btn">保存日记</button>
+                  <button id="clearDiary" class="diary-btn diary-btn-secondary">清空</button>
+                </div>
+              </div>
+              <div class="diary-history">
+                <h3>已保存的日记</h3>
+                <div id="diaryList" class="diary-list">
+                  <!-- 日记条目将在这里显示 -->
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
 
         <!-- 右侧：侧栏信息 -->
@@ -308,6 +436,96 @@
   <script>
     // 自动显示当前年份
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 日记功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const diaryEntry = document.getElementById('diaryEntry');
+      const saveDiaryBtn = document.getElementById('saveDiary');
+      const clearDiaryBtn = document.getElementById('clearDiary');
+      const diaryList = document.getElementById('diaryList');
+      
+      // 从本地存储加载日记
+      loadDiaries();
+      
+      // 保存日记
+      saveDiaryBtn.addEventListener('click', function() {
+        const content = diaryEntry.value.trim();
+        if (!content) {
+          alert('请输入日记内容！');
+          return;
+        }
+        
+        const diary = {
+          id: Date.now(),
+          date: new Date().toLocaleString('zh-CN'),
+          content: content
+        };
+        
+        // 获取现有日记
+        let diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+        diaries.unshift(diary); // 添加到开头（最新在前）
+        localStorage.setItem('diaries', JSON.stringify(diaries));
+        
+        // 清空输入框
+        diaryEntry.value = '';
+        
+        // 重新加载显示
+        loadDiaries();
+        
+        alert('日记保存成功！');
+      });
+      
+      // 清空输入框
+      clearDiaryBtn.addEventListener('click', function() {
+        if (diaryEntry.value.trim() && !confirm('确定要清空当前输入的内容吗？')) {
+          return;
+        }
+        diaryEntry.value = '';
+        diaryEntry.focus();
+      });
+      
+      // 加载并显示日记
+      function loadDiaries() {
+        const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+        
+        if (diaries.length === 0) {
+          diaryList.innerHTML = '<div class="diary-empty">还没有日记，写下你的第一篇日记吧！</div>';
+          return;
+        }
+        
+        diaryList.innerHTML = diaries.map(diary => `
+          <div class="diary-item" data-id="${diary.id}">
+            <div class="diary-date">${diary.date}</div>
+            <div class="diary-content">${escapeHtml(diary.content)}</div>
+            <div class="diary-actions" style="margin-top: 8px; text-align: right;">
+              <button class="diary-btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="deleteDiary(${diary.id})">删除</button>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      // HTML转义函数，防止XSS
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    });
+    
+    // 删除日记函数（全局可访问）
+    function deleteDiary(id) {
+      if (!confirm('确定要删除这篇日记吗？')) {
+        return;
+      }
+      
+      let diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+      diaries = diaries.filter(diary => diary.id !== id);
+      localStorage.setItem('diaries', JSON.stringify(diaries));
+      
+      // 重新加载显示
+      document.getElementById('diaryList').innerHTML = '';
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+    }
   </script>
 </body>
 </html>
